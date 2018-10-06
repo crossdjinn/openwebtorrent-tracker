@@ -5,6 +5,41 @@ var Server = require('../..').Server
 var express = require('express')
 var app = express()
 
+var createTorrent = require('create-torrent')
+var fs = require('fs')
+
+var demo = fs.readFile('./test.mp4', 'utf8', function (err, data) {
+  if (err) throw err
+  return data
+})
+
+var announceListData = [
+  'http://35.204.224.194:2988/announce',
+  'http://35.204.224.194:2988',
+  'udp://35.204.224.194:2988/announce',
+  'udp://35.204.224.194:2988',
+  'udp://tracker.openbittorrent.com:80',
+  'udp://tracker.internetwarriors.net:1337',
+  'udp://tracker.leechers-paradise.org:6969',
+  'udp://tracker.coppersurfer.tk:6969',
+  'udp://exodus.desync.com:6969',
+  'wss://tracker.btorrent.xyz',
+  'wss://tracker.openwebtorrent.com',
+  'wss://tracker.fastcast.nz'
+]
+
+var createTorrentOptions = {
+  private: false,
+  announceList: announceListData
+}
+
+createTorrent('./', createTorrentOptions, function (err) {
+  if (!err) {
+    // `torrent` is a Buffer with the contents of the new .torrent file
+    fs.writeFile('sintel.torrent', demo)
+  }
+})
+
 // https://wiki.theory.org/BitTorrentSpecification#peer_id
 
 var server = new Server({
@@ -50,7 +85,7 @@ server.on('warning', function (err) {
 })
 
 // start tracker server listening! Use 0 to listen on a random free port.
-server.listen(2988, '0.0.0.0')
+server.listen(29888, '0.0.0.0')
 
 // listen for individual tracker messages from peers:
 server.on('start', function (addr) {
@@ -61,15 +96,14 @@ server.on('complete', function (addr) {})
 server.on('update', function (addr) {})
 server.on('stop', function (addr) {})
 
-app.listen(8080)
+app.listen(29888)
 
 var dht = new DHT()
 
 dht.listen(6881, function () {
-  console.log('dht listening')
+  console.log('dht listen  0.0.0.0:6881')
 })
 
 dht.on('peer', function (peer, infoHash, from) {
   console.log('found potential peer ' + peer.host + ':' + peer.port + ' through ' + from.address + ':' + from.port)
 })
-

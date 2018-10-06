@@ -9,6 +9,8 @@
   "license": "MIT",
   "dependencies": {
     "bittorrent-dht": "^9.0.0",
-    "express": "^4.10.5"
+    "create-torrent": "^3.33.0",
+    "express": "^4.10.5",
+    "fs": "0.0.1-security"
   }
 }
