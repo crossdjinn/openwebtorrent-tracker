@@ -22,7 +22,7 @@ var server = new Server({
 
     // This example only allows one torrent.
 
-    let allowed = true
+    var allowed = true
     if (allowed) {
       // If the callback is passed `null`, the torrent will be allowed.
       cb(null)
