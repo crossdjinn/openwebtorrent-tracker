@@ -14,10 +14,10 @@ var demo = fs.readFile('./test.mp4', 'utf8', function (err, data) {
 })
 
 var announceListData = [
-  'http://35.204.224.194:2988/announce',
-  'http://35.204.224.194:2988',
-  'udp://35.204.224.194:2988/announce',
-  'udp://35.204.224.194:2988',
+  'http://35.204.224.194:29888/announce',
+  'http://35.204.224.194:29888',
+  'udp://35.204.224.194:29888/announce',
+  'udp://35.204.224.194:29888',
   'udp://tracker.openbittorrent.com:80',
   'udp://tracker.internetwarriors.net:1337',
   'udp://tracker.leechers-paradise.org:6969',
@@ -96,7 +96,7 @@ server.on('complete', function (addr) {})
 server.on('update', function (addr) {})
 server.on('stop', function (addr) {})
 
-app.listen(29888)
+app.listen()
 
 var dht = new DHT()
 
