@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var DHT = require('bittorrent-dht')
 var Server = require('../..').Server
 var express = require('express')
 var app = express()
@@ -48,14 +49,8 @@ server.on('warning', function (err) {
   console.log(err.message)
 })
 
-server.on('listening', function () {
-  // fired when all requested servers are listening
-  console.log('listening on http port:' + server.http.address().port)
-  console.log('listening on udp port:' + server.udp.address().port)
-})
-
 // start tracker server listening! Use 0 to listen on a random free port.
-server.listen(2988, '0.0.0.0', 'onlistening')
+server.listen(2988, '0.0.0.0')
 
 // listen for individual tracker messages from peers:
 server.on('start', function (addr) {
@@ -67,3 +62,14 @@ server.on('update', function (addr) {})
 server.on('stop', function (addr) {})
 
 app.listen(8080)
+
+var dht = new DHT()
+
+dht.listen(6881, function () {
+  console.log('dht listening')
+})
+
+dht.on('peer', function (peer, infoHash, from) {
+  console.log('found potential peer ' + peer.host + ':' + peer.port + ' through ' + from.address + ':' + from.port)
+})
+
