@@ -8,6 +8,7 @@
   "author": "Astro <astro@spaceboyz.net>",
   "license": "MIT",
   "dependencies": {
+    "bittorrent-dht": "^9.0.0",
     "express": "^4.10.5"
   }
 }
